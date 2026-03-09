@@ -1,5 +1,7 @@
 # SlideFlow
 
+Live demo: https://karolannmauger.github.io/SlideFlow/
+
 Clean Reveal.js-based HTML presentation with automatic slide discovery.
 
 ## Features
