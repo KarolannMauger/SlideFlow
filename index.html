@@ -8,8 +8,8 @@
       name="description"
       content="Présentation Reveal.js avec slides HTML intégrées."
     />
-    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
-    <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
+    <link rel="stylesheet" href="./vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="./vendor/reveal/theme/white.css" />
     <style>
       :root {
         color-scheme: only light;
@@ -114,14 +114,14 @@
 
     <noscript>Active JavaScript pour afficher la présentation.</noscript>
 
-    <script src="vendor/reveal/reveal.js"></script>
+    <script src="./vendor/reveal/reveal.js"></script>
     <script>
       const slidesRoot = document.getElementById("slidesRoot");
       const slideStatus = document.getElementById("slideStatus");
       const fullscreenBtn = document.getElementById("fullscreenBtn");
 
       async function loadSlides() {
-        const response = await fetch("slides.json", { cache: "no-store" });
+        const response = await fetch("./slides.json", { cache: "no-store" });
         if (!response.ok) {
           throw new Error("Impossible de charger slides.json");
         }
