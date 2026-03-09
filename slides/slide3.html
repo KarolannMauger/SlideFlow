@@ -1,0 +1,333 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Méthode Cascade (Waterfall)</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .slide-container {
+        width: 1280px;
+        height: 720px;
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .step-card {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .step-arrow::after {
+        content: "";
+        position: absolute;
+        right: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 14px solid #cbd5e1;
+      }
+
+      .step-card:last-child .step-arrow::after {
+        display: none;
+      }
+
+      .pros-cons-card {
+        transition: transform 0.2s;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div
+        class="w-full h-24 bg-white flex items-center px-16 border-b border-slate-200 relative z-10 flex-shrink-0"
+      >
+        <div class="w-2 h-12 bg-blue-600 mr-6 rounded-full"></div>
+        <div>
+          <h1 class="text-3xl font-bold text-slate-800">
+            Méthode Cascade (Waterfall)
+          </h1>
+          <p class="text-slate-500 text-sm mt-1">
+            Approche séquentielle linéaire et prédictive
+          </p>
+        </div>
+        <div class="absolute right-16 top-1/2 transform -translate-y-1/2">
+          <span class="text-slate-200 font-bold text-6xl opacity-30 select-none"
+            >02</span
+          >
+        </div>
+      </div>
+      <div
+        class="flex-1 bg-slate-50 p-10 flex flex-col gap-8 overflow-hidden relative"
+      >
+        <div
+          class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-full opacity-50 z-0"
+        ></div>
+        <div class="z-10 w-full">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-blue-800 flex items-center">
+              <i class="fa-solid fa-arrow-down-long mr-3"></i> Phases
+              Séquentielles
+            </h2>
+            <span
+              class="text-xs text-slate-400 font-semibold bg-white px-3 py-1 rounded-full border border-slate-200"
+              >VALIDATION REQUISE À CHAQUE ÉTAPE</span
+            >
+          </div>
+          <div class="flex justify-between items-stretch gap-2 h-32">
+            <div
+              class="flex-1 bg-white border-t-4 border-blue-800 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card step-arrow relative z-50"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                1
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Exigences</h3>
+              <p class="text-xs text-slate-500 mt-1">Cahier des charges</p>
+            </div>
+            <div
+              class="flex-1 bg-white border-t-4 border-blue-700 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card step-arrow relative z-40 mt-4"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                2
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Conception</h3>
+              <p class="text-xs text-slate-500 mt-1">Specs techniques</p>
+            </div>
+            <div
+              class="flex-1 bg-white border-t-4 border-blue-600 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card step-arrow relative z-30 mt-8"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                3
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Développement</h3>
+              <p class="text-xs text-slate-500 mt-1">Codage / Build</p>
+            </div>
+            <div
+              class="flex-1 bg-white border-t-4 border-blue-500 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card step-arrow relative z-20 mt-12"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                4
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Tests</h3>
+              <p class="text-xs text-slate-500 mt-1">Vérification</p>
+            </div>
+            <div
+              class="flex-1 bg-white border-t-4 border-blue-400 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card step-arrow relative z-10 mt-16"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 text-blue-400 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                5
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Déploiement</h3>
+              <p class="text-xs text-slate-500 mt-1">Mise en prod</p>
+            </div>
+            <div
+              class="flex-1 bg-white border-t-4 border-green-500 rounded shadow-sm p-3 flex flex-col items-center justify-center text-center step-card relative z-0 mt-20"
+            >
+              <div
+                class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-2 text-sm font-bold"
+              >
+                6
+              </div>
+              <h3 class="font-bold text-slate-700 text-sm">Maintenance</h3>
+              <p class="text-xs text-slate-500 mt-1">Support &amp; Run</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-8 flex-1 z-10">
+          <div
+            class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col pros-cons-card"
+          >
+            <div
+              class="bg-green-50 p-4 border-b border-green-100 flex items-center"
+            >
+              <div
+                class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3"
+              >
+                <i class="fa-solid fa-thumbs-up text-white text-sm"></i>
+              </div>
+              <h3 class="font-bold text-green-800 text-lg">Avantages</h3>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-center">
+              <ul class="space-y-4">
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-check text-green-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Planification claire
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Dates, budget et périmètre définis dès le début.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-check text-green-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Rigueur documentaire
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Idéal pour les audits et la transmission de connaissances.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-check text-green-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Discipline structurelle
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Chaque phase a des livrables clairs et validés.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-check text-green-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Conformité réglementaire
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Adapté aux industries à fortes contraintes (Médical,
+                      Aéro).
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col pros-cons-card"
+          >
+            <div
+              class="bg-red-50 p-4 border-b border-red-100 flex items-center"
+            >
+              <div
+                class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3"
+              >
+                <i class="fa-solid fa-thumbs-down text-white text-sm"></i>
+              </div>
+              <h3 class="font-bold text-red-800 text-lg">Limites</h3>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-center">
+              <ul class="space-y-4">
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-xmark text-red-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Manque de flexibilité
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Difficile de changer de direction une fois le projet
+                      lancé.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-xmark text-red-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Effet tunnel
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Le client ne voit le produit fini qu'à la toute fin.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-xmark text-red-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Découverte tardive des risques
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Les problèmes d'intégration surviennent souvent à la fin.
+                    </p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <i
+                    class="fa-solid fa-xmark text-red-500 mt-1 mr-3 flex-shrink-0"
+                  ></i>
+                  <div>
+                    <p class="font-semibold text-slate-700 text-sm">
+                      Coût du changement
+                    </p>
+                    <p class="text-slate-500 text-xs">
+                      Modifier une exigence en phase de test coûte très cher.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-4 right-10 text-xs text-slate-400">
+          <i class="fa-solid fa-circle-info mr-1"></i> Idéal pour les projets à
+          périmètre stable et connu d'avance.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

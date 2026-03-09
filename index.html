@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Présentation</title>
+    <meta
+      name="description"
+      content="Présentation Reveal.js avec slides HTML intégrées."
+    />
+    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
+    <style>
+      :root {
+        color-scheme: only light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(circle at top, #1f2937, #0b0f1a 60%);
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      }
+
+      .reveal {
+        background: transparent;
+      }
+
+      .reveal .slides {
+        text-align: center;
+      }
+
+      .reveal .slides section {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .slide-frame {
+        width: 1280px;
+        height: 720px;
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+        background: #0b0f1a;
+      }
+
+      .reveal .progress {
+        height: 6px;
+      }
+
+      .hud {
+        position: fixed;
+        right: 24px;
+        bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+        color: #e2e8f0;
+        z-index: 10;
+      }
+
+      .hud button {
+        background: rgba(148, 163, 184, 0.15);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: inherit;
+        border-radius: 999px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .hud button:hover {
+        transform: translateY(-1px);
+        background: rgba(148, 163, 184, 0.25);
+      }
+
+      .hud button:active {
+        transform: translateY(0);
+      }
+
+      .status {
+        opacity: 0.75;
+      }
+
+      .error {
+        color: #fecaca;
+        margin: 32px auto;
+        text-align: center;
+        max-width: 680px;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides" id="slidesRoot"></div>
+    </div>
+
+    <div class="hud" id="hud">
+      <button type="button" id="fullscreenBtn">Plein ecran</button>
+      <span class="status" id="slideStatus">Chargement...</span>
+    </div>
+
+    <noscript>Active JavaScript pour afficher la présentation.</noscript>
+
+    <script src="vendor/reveal/reveal.js"></script>
+    <script>
+      const slidesRoot = document.getElementById("slidesRoot");
+      const slideStatus = document.getElementById("slideStatus");
+      const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+      async function loadSlides() {
+        const response = await fetch("slides.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Impossible de charger slides.json");
+        }
+        const slides = await response.json();
+        if (!Array.isArray(slides) || slides.length === 0) {
+          throw new Error("Aucune slide detectee.");
+        }
+
+        slides.forEach((src, index) => {
+          const section = document.createElement("section");
+          const iframe = document.createElement("iframe");
+          iframe.className = "slide-frame";
+          iframe.src = src;
+          iframe.title = `Slide ${index + 1}`;
+          section.appendChild(iframe);
+          slidesRoot.appendChild(section);
+        });
+
+        return slides.length;
+      }
+
+      function updateStatus() {
+        const indices = Reveal.getIndices();
+        const total = Reveal.getTotalSlides();
+        slideStatus.textContent = `Slide ${indices.h + 1} / ${total}`;
+      }
+
+      async function setup() {
+        try {
+          const count = await loadSlides();
+          Reveal.initialize({
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+            controls: true,
+            progress: true,
+            hash: true,
+            slideNumber: true,
+          });
+
+          Reveal.on("ready", updateStatus);
+          Reveal.on("slidechanged", updateStatus);
+          slideStatus.textContent = `Slide 1 / ${count}`;
+        } catch (error) {
+          console.error(error);
+          slidesRoot.innerHTML = `
+            <div class="error">
+              <strong>Erreur :</strong> ${error.message}<br />
+              Lance d'abord <code>npm install</code> puis <code>npm run build</code>.
+            </div>
+          `;
+          slideStatus.textContent = "Erreur";
+        }
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      fullscreenBtn.addEventListener("click", toggleFullscreen);
+      document.addEventListener("keydown", (event) => {
+        if (event.key.toLowerCase() === "f") {
+          toggleFullscreen();
+        }
+      });
+
+      setup();
+    </script>
+  </body>
+</html>
