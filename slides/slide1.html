@@ -1,0 +1,157 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Agile vs Cascade (Waterfall)</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Open+Sans:wght@400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .slide-container {
+        width: 1280px;
+        height: 720px;
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        display: flex;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .decorative-circle {
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dot-pattern {
+        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div
+        class="w-[35%] h-full bg-[#1e293b] text-white flex flex-col justify-between p-12 relative overflow-hidden"
+      >
+        <div
+          class="absolute top-[-50px] left-[-50px] w-64 h-64 rounded-full border-[20px] border-[#334155] opacity-20"
+        ></div>
+        <div
+          class="absolute bottom-[100px] right-[-50px] w-48 h-48 rounded-full border-[10px] border-[#334155] opacity-20"
+        ></div>
+        <div class="z-10">
+          <div class="flex items-center gap-3 mb-8">
+            <div
+              class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center"
+            >
+              <i class="fa-solid fa-layer-group text-white text-xl"></i>
+            </div>
+            <span class="text-xl font-bold tracking-wider">ENTREPRISE</span>
+          </div>
+        </div>
+        <div class="z-10 flex flex-col gap-6">
+          <div>
+            <p
+              class="text-blue-400 text-sm uppercase tracking-widest font-semibold mb-2"
+            >
+              Présenté par
+            </p>
+            <h3 class="text-3xl font-bold mb-1">Prénom Nom</h3>
+            <p class="text-slate-300 text-lg font-light">
+              Scrum Master (Stagiaire)
+            </p>
+          </div>
+          <div class="w-16 h-1 bg-blue-500 rounded-full"></div>
+          <div>
+            <p class="text-slate-400 text-sm mb-1">
+              <i class="fa-regular fa-calendar mr-2"></i>Mars 2026
+            </p>
+            <p class="text-slate-400 text-sm">
+              <i class="fa-solid fa-location-dot mr-2"></i>Stage de fin d'études
+            </p>
+          </div>
+        </div>
+        <div class="z-10 opacity-60 text-xs">
+          <p>Département IT / Gestion de Projet</p>
+        </div>
+      </div>
+      <div
+        class="w-[65%] h-full bg-white relative flex flex-col justify-center px-20 py-12"
+      >
+        <div
+          class="absolute top-0 right-0 w-1/3 h-full dot-pattern opacity-30 z-0"
+        ></div>
+        <div class="absolute top-12 right-12 z-0 opacity-10">
+          <i class="fa-solid fa-arrow-rotate-right text-9xl text-blue-900"></i>
+        </div>
+        <div class="z-10 relative">
+          <div
+            class="inline-block px-4 py-1 bg-blue-50 text-blue-800 rounded-full text-sm font-semibold mb-6 border border-blue-100"
+          >
+            MÉTHODOLOGIES
+          </div>
+          <h1 class="text-7xl font-extrabold text-slate-800 leading-tight mb-2">
+            <span class="text-blue-700">Agile</span>
+            <span class="text-4xl text-slate-400 font-light align-middle mx-2"
+              >vs</span
+            >
+            <br />
+            Cascade
+          </h1>
+          <p class="text-2xl text-slate-500 font-light mb-8">(Waterfall)</p>
+          <div class="w-full h-px bg-slate-200 mb-8"></div>
+          <h2 class="text-2xl text-slate-700 font-semibold mb-4">
+            Comparaison des approches de gestion de projet
+          </h2>
+          <div
+            class="bg-slate-50 border-l-4 border-blue-500 p-6 rounded-r-lg shadow-sm"
+          >
+            <p class="text-slate-600 leading-relaxed text-lg">
+              <i class="fa-solid fa-bullseye text-blue-500 mr-2"></i>
+              <strong>Objectif :</strong> Aider les équipes à choisir l’approche
+              la plus adaptée selon le contexte, les risques et les contraintes
+              opérationnelles.
+            </p>
+          </div>
+        </div>
+        <div class="absolute bottom-0 right-0 w-full h-2 bg-slate-100">
+          <div class="w-1/3 h-full bg-blue-600 ml-auto"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

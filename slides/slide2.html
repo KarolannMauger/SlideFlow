@@ -1,0 +1,235 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Introduction aux méthodologies</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Open+Sans:wght@400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .slide-container {
+        width: 1280px;
+        height: 720px;
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Montserrat", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div
+        class="w-full h-24 bg-white flex items-center px-16 border-b border-slate-200 relative z-10 flex-shrink-0"
+      >
+        <div class="w-2 h-12 bg-blue-600 mr-6 rounded-full"></div>
+        <div>
+          <h1 class="text-3xl font-bold text-slate-800">
+            Introduction aux méthodologies
+          </h1>
+          <p class="text-slate-500 text-sm mt-1">
+            Comprendre les fondements de la gestion de projet moderne
+          </p>
+        </div>
+        <div class="absolute right-16 top-1/2 transform -translate-y-1/2">
+          <span class="text-slate-200 font-bold text-6xl opacity-30 select-none"
+            >01</span
+          >
+        </div>
+      </div>
+      <div class="flex-1 flex p-10 gap-10 bg-slate-50 relative overflow-hidden">
+        <div
+          class="absolute top-10 right-10 w-64 h-64 bg-blue-100 rounded-full opacity-20 filter blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-10 left-10 w-48 h-48 bg-slate-200 rounded-full opacity-20 filter blur-2xl"
+        ></div>
+        <div class="w-7/12 flex flex-col gap-6 z-10 justify-center">
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+          >
+            <h2 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+              <i class="fa-solid fa-bullseye text-blue-500 mr-3"></i> Objectifs
+              de la séance
+            </h2>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i
+                  class="fa-solid fa-check-circle text-green-500 mt-1 mr-3 text-sm"
+                ></i>
+                <p class="text-slate-700">
+                  Comprendre les différences clés entre
+                  <strong>Agile</strong> et <strong>Cascade</strong>
+                </p>
+              </li>
+              <li class="flex items-start">
+                <i
+                  class="fa-solid fa-check-circle text-green-500 mt-1 mr-3 text-sm"
+                ></i>
+                <p class="text-slate-700">
+                  Savoir identifier le bon contexte pour choisir l'approche
+                  adaptée
+                </p>
+              </li>
+              <li class="flex items-start">
+                <i
+                  class="fa-solid fa-check-circle text-green-500 mt-1 mr-3 text-sm"
+                ></i>
+                <p class="text-slate-700">
+                  Découvrir des ressources de formation (LinkedIn Learning,
+                  guides officiels)
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-2">
+            <h2
+              class="text-xl font-bold text-slate-800 mb-4 pl-2 border-l-4 border-slate-300"
+            >
+              Définitions Rapides
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="bg-white p-5 rounded-lg border-l-4 border-slate-500 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center mb-2">
+                  <i
+                    class="fa-solid fa-layer-group text-slate-500 text-xl mr-3"
+                  ></i>
+                  <h3 class="font-bold text-slate-700">Cascade</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Progression <strong>séquentielle</strong> par phases uniques.
+                  Peu de retours arrière possibles une fois une phase validée.
+                </p>
+              </div>
+              <div
+                class="bg-white p-5 rounded-lg border-l-4 border-blue-500 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center mb-2">
+                  <i class="fa-solid fa-rotate text-blue-500 text-xl mr-3"></i>
+                  <h3 class="font-bold text-blue-700">Agile</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Approche <strong>itérative et incrémentale</strong>. Sprints
+                  courts (2–4 semaines) avec feedback continu.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-5/12 flex flex-col z-10 justify-center">
+          <div
+            class="bg-slate-800 text-white p-8 rounded-2xl h-full flex flex-col justify-between shadow-lg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-bl-full opacity-20"
+            ></div>
+            <div>
+              <h2
+                class="text-2xl font-bold mb-6 border-b border-slate-600 pb-4"
+              >
+                Enjeux pour notre entreprise
+              </h2>
+              <div class="space-y-6">
+                <div class="flex items-start">
+                  <div
+                    class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1 shadow-lg"
+                  >
+                    <i class="fa-solid fa-rocket text-white text-xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="font-bold text-blue-200 text-lg">
+                      Time-to-Market
+                    </h3>
+                    <p class="text-slate-300 text-sm mt-1 leading-relaxed">
+                      Accélérer la mise à disposition des fonctionnalités pour
+                      la satisfaction client.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1 shadow-lg"
+                  >
+                    <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="font-bold text-blue-200 text-lg">
+                      Maîtrise des Risques
+                    </h3>
+                    <p class="text-slate-300 text-sm mt-1 leading-relaxed">
+                      Assurer la qualité et minimiser les échecs projets
+                      coûteux.
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1 shadow-lg"
+                  >
+                    <i
+                      class="fa-solid fa-scale-balanced text-white text-xl"
+                    ></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="font-bold text-blue-200 text-lg">
+                      Prévisibilité vs Adaptabilité
+                    </h3>
+                    <p class="text-slate-300 text-sm mt-1 leading-relaxed">
+                      Trouver l'équilibre entre planning figé et réactivité au
+                      changement.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-6 border-t border-slate-700">
+              <p class="text-xs text-slate-400 italic text-center">
+                "L'agilité n'est pas une fin en soi, mais un moyen d'atteindre
+                nos objectifs business."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="h-10 bg-white border-t border-slate-200 flex items-center justify-between px-12 text-xs text-slate-400 flex-shrink-0"
+      >
+        <p>Agile vs Cascade (Waterfall)</p>
+        <p>Page 2</p>
+      </div>
+    </div>
+  </body>
+</html>

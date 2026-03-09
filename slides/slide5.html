@@ -1,0 +1,343 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Agile vs Cascade - Tableau Comparatif</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .slide-container {
+        width: 1280px;
+        height: 720px;
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .comparison-row {
+        transition: background-color 0.2s;
+      }
+      .comparison-row:hover {
+        background-color: #f8fafc;
+      }
+
+      .table-container {
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 #f1f5f9;
+      }
+
+      .table-container::-webkit-scrollbar {
+        width: 6px;
+      }
+      .table-container::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      .table-container::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div
+        class="w-full h-24 bg-white flex items-center px-16 border-b border-slate-200 relative z-10 flex-shrink-0"
+      >
+        <div class="w-2 h-12 bg-blue-600 mr-6 rounded-full"></div>
+        <div>
+          <h1 class="text-3xl font-bold text-slate-800">Agile vs Cascade</h1>
+          <p class="text-slate-500 text-sm mt-1">
+            Tableau comparatif détaillé des méthodologies
+          </p>
+        </div>
+        <div class="absolute right-16 top-1/2 transform -translate-y-1/2">
+          <span class="text-slate-200 font-bold text-6xl opacity-30 select-none"
+            >05</span
+          >
+        </div>
+      </div>
+      <div
+        class="flex-1 bg-slate-50 p-8 overflow-hidden flex flex-col relative"
+      >
+        <div
+          class="absolute bottom-0 left-0 w-64 h-64 bg-blue-50 rounded-tr-full opacity-50 z-0"
+        ></div>
+        <div
+          class="flex rounded-t-xl bg-slate-800 text-white shadow-md z-10 mr-2 flex-shrink-0"
+        >
+          <div
+            class="w-1/5 p-4 flex items-center justify-center border-r border-slate-700"
+          >
+            <h3 class="font-bold text-base uppercase tracking-wider">
+              Critères
+            </h3>
+          </div>
+          <div
+            class="w-2/5 p-4 flex items-center justify-center border-r border-slate-700 bg-slate-700 relative overflow-hidden"
+          >
+            <div class="absolute top-0 right-0 opacity-10">
+              <i class="fa-solid fa-layer-group text-6xl"></i>
+            </div>
+            <i class="fa-solid fa-layer-group mr-3 text-blue-300"></i>
+            <h3 class="font-bold text-lg">Cascade (Waterfall)</h3>
+          </div>
+          <div
+            class="w-2/5 p-4 flex items-center justify-center bg-blue-900 relative overflow-hidden"
+          >
+            <div class="absolute top-0 right-0 opacity-10">
+              <i class="fa-solid fa-rotate text-6xl"></i>
+            </div>
+            <i class="fa-solid fa-rotate mr-3 text-green-300"></i>
+            <h3 class="font-bold text-lg">Agile (Scrum)</h3>
+          </div>
+        </div>
+        <div
+          class="flex-1 overflow-y-auto pr-2 z-10 table-container shadow-sm bg-white rounded-b-xl border-l border-r border-b border-slate-200"
+        >
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Approche Global</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">Séquentielle et linéaire</p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Itérative et incrémentale
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Planification</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">Détaillée et figée en amont</p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Adaptative, planifiée par Sprint
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Changement</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">Coûteux, formel et évité</p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Accueilli comme avantage compétitif
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Feedback Client</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">Tardif (Recette finale)</p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Continu (Revue de Sprint)
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Risque</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Concentré à la fin (Effet tunnel)
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Réparti et réduit tôt (Fail fast)
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Documentation</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Exhaustive avant développement
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Juste suffisante et vivante
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Gouvernance</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Validation par phase (Phase-gate)
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Empirique (Transparence/Inspection)
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Mesure Succès</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Conformité au plan (Coût/Délai)
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Valeur métier livrée &amp; Satisfaction
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-100 comparison-row items-stretch min-h-[48px]"
+          >
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Livraisons</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Unique en fin de projet ("Big Bang")
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Incréments fréquents et utilisables
+              </p>
+            </div>
+          </div>
+          <div class="flex comparison-row items-stretch min-h-[48px]">
+            <div
+              class="w-1/5 p-2 px-4 flex items-center bg-slate-50 font-bold text-slate-700 text-xs uppercase tracking-wide border-r border-slate-200"
+            >
+              <p>Contexte Idéal</p>
+            </div>
+            <div
+              class="w-2/5 p-2 px-6 flex items-center bg-white border-r border-slate-100"
+            >
+              <p class="text-sm text-slate-600">
+                Exigences stables, projets réglementés
+              </p>
+            </div>
+            <div class="w-2/5 p-2 px-6 flex items-center bg-blue-50/20">
+              <p class="text-sm text-slate-800 font-semibold">
+                Incertitude, innovation, complexité
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mt-4 flex justify-end text-xs text-slate-500 italic z-10 flex-shrink-0"
+        >
+          <p>
+            <i class="fa-solid fa-circle-info mr-1 text-blue-500"></i> Le choix
+            dépend de la nature du projet et de la culture d'entreprise.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
