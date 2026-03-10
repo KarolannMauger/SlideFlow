@@ -422,6 +422,7 @@
           <span id="slideCounter">1 / 1</span>
         </div>
         <div class="player-controls">
+          <button class="player-btn" id="autoPlayBtn">Auto Play</button>
           <button class="player-btn" id="zoomOutBtn">-</button>
           <button class="player-btn" id="zoomResetBtn">Reset</button>
           <button class="player-btn" id="zoomInBtn">+</button>
@@ -454,6 +455,8 @@
         currentIndex: 0,
         zoom: 1,
         blobUrls: [],
+        autoPlay: false,
+        autoPlayTimer: null,
       };
 
       function showToast(message) {
@@ -518,6 +521,10 @@
           };
         }
         return updated;
+      }
+
+      function ensureDeckWithCover(count) {
+        return ensureCoverSlide(createEmptyDeck(count));
       }
 
       function renderDeck() {
@@ -707,6 +714,7 @@
         document.body.style.overflow = "auto";
         slideShell.innerHTML = "";
         clearBlobUrls();
+        stopAutoPlay();
         if (document.fullscreenElement) {
           document.exitFullscreen().catch(() => null);
         }
@@ -735,6 +743,8 @@
         if (state.currentIndex < state.deck.length - 1) {
           state.currentIndex += 1;
           renderSlide();
+        } else if (state.autoPlay) {
+          stopAutoPlay();
         }
       }
 
@@ -760,6 +770,30 @@
         applyZoom();
       }
 
+      function startAutoPlay() {
+        if (state.autoPlay) return;
+        state.autoPlay = true;
+        document.getElementById("autoPlayBtn").textContent = "Stop Auto";
+        state.autoPlayTimer = setInterval(nextSlide, 5000);
+      }
+
+      function stopAutoPlay() {
+        state.autoPlay = false;
+        document.getElementById("autoPlayBtn").textContent = "Auto Play";
+        if (state.autoPlayTimer) {
+          clearInterval(state.autoPlayTimer);
+          state.autoPlayTimer = null;
+        }
+      }
+
+      function toggleAutoPlay() {
+        if (state.autoPlay) {
+          stopAutoPlay();
+        } else {
+          startAutoPlay();
+        }
+      }
+
       async function init() {
         const response = await fetch("./templates.json", { cache: "no-store" });
         state.templates = await response.json();
@@ -770,12 +804,19 @@
           state.deck = saved;
           renderDeck();
         } else {
-          state.deck = ensureCoverSlide(createEmptyDeck(Number(slideCountInput.value)));
+          state.deck = ensureDeckWithCover(Number(slideCountInput.value));
           renderDeck();
         }
       }
 
       document.getElementById("startBtn").addEventListener("click", () => {
+        if (!state.deck.length) {
+          state.deck = ensureDeckWithCover(Number(slideCountInput.value));
+        } else {
+          state.deck = ensureCoverSlide(state.deck);
+        }
+        saveDeck();
+        renderDeck();
         builder.classList.remove("hidden");
         builder.scrollIntoView({ behavior: "smooth" });
       });
@@ -792,6 +833,7 @@
         builder.classList.remove("hidden");
         renderDeck();
         builder.scrollIntoView({ behavior: "smooth" });
+        openPlayer();
       }
 
       document.getElementById("demoBtn").addEventListener("click", handleDemoLoad);
@@ -805,6 +847,7 @@
       document.getElementById("zoomInBtn").addEventListener("click", zoomIn);
       document.getElementById("zoomOutBtn").addEventListener("click", zoomOut);
       document.getElementById("zoomResetBtn").addEventListener("click", zoomReset);
+      document.getElementById("autoPlayBtn").addEventListener("click", toggleAutoPlay);
       document.getElementById("exitBtn").addEventListener("click", exitPlayer);
 
       dropZone.addEventListener("dragover", (event) => {
@@ -839,6 +882,9 @@
         }
         if (event.key === "0") {
           zoomReset();
+        }
+        if (event.key.toLowerCase() === "p") {
+          toggleAutoPlay();
         }
         if (event.key === "Escape") {
           exitPlayer();
