@@ -278,6 +278,10 @@
         z-index: 40;
       }
 
+      .player:focus {
+        outline: none;
+      }
+
       .player-toolbar {
         display: flex;
         justify-content: space-between;
@@ -715,7 +719,7 @@
         document.body.style.overflow = "hidden";
         try {
           if (!document.fullscreenElement) {
-            await player.requestFullscreen();
+            await document.documentElement.requestFullscreen();
           }
         } catch (error) {
           console.warn("Fullscreen denied", error);
@@ -744,6 +748,7 @@
         slideCounter.textContent = `${state.currentIndex + 1} / ${state.deck.length}`;
         updateProgress();
         applyZoom();
+        requestAnimationFrame(() => player.focus());
       }
 
       function updateProgress() {
@@ -900,6 +905,7 @@
 
       document.addEventListener("keydown", handlePlayerKeys);
       window.addEventListener("keydown", handlePlayerKeys, true);
+      player.addEventListener("click", () => player.focus());
 
       init();
     </script>
