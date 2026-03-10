@@ -1,0 +1,42 @@
+[
+  {
+    "id": "template-1",
+    "name": "Agile vs Waterfall",
+    "src": "slides/slide1.html"
+  },
+  {
+    "id": "template-2",
+    "name": "Introduction to Methodologies",
+    "src": "slides/slide2.html"
+  },
+  {
+    "id": "template-3",
+    "name": "Waterfall Method",
+    "src": "slides/slide3.html"
+  },
+  {
+    "id": "template-4",
+    "name": "Agile Method (Scrum)",
+    "src": "slides/slide4.html"
+  },
+  {
+    "id": "template-5",
+    "name": "Agile vs Waterfall - Comparison Table",
+    "src": "slides/slide5.html"
+  },
+  {
+    "id": "template-6",
+    "name": "When to Use Each Method",
+    "src": "slides/slide6.html"
+  },
+  {
+    "id": "template-7",
+    "name": "Resources &amp; Documentation",
+    "src": "slides/slide7.html"
+  },
+  {
+    "id": "template-8",
+    "name": "Conclusion & Next Steps",
+    "src": "slides/slide8.html"
+  }
+]
