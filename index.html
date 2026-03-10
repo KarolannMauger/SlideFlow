@@ -290,13 +290,18 @@
 
       .progress-track {
         height: 6px;
-        background: rgba(148, 163, 184, 0.2);
+        background: rgba(59, 130, 246, 0.2);
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 45;
       }
 
       .progress-bar {
         height: 100%;
         width: 0%;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        background: linear-gradient(90deg, #2563eb, #60a5fa);
         transition: width 0.2s ease;
       }
 
@@ -426,7 +431,7 @@
       </section>
     </div>
 
-    <section class="player hidden" id="player">
+    <section class="player hidden" id="player" tabindex="0">
       <div class="player-toolbar">
         <div class="player-controls">
           <button class="player-btn" id="prevBtn">← Prev</button>
@@ -440,7 +445,7 @@
           <button class="player-btn" id="exitBtn">Exit</button>
         </div>
       </div>
-      <div class="progress-track">
+      <div class="progress-track" aria-hidden="true">
         <div class="progress-bar" id="progressBar"></div>
       </div>
       <div class="player-stage">
@@ -506,7 +511,7 @@
           <strong>${featured.name}</strong>
           <span class="slot-meta">HTML template</span>
         `;
-        card.addEventListener("click", handleDemoLoad);
+        card.addEventListener("click", handleTemplateLoad);
         templatesGrid.appendChild(card);
       }
 
@@ -715,6 +720,7 @@
         } catch (error) {
           console.warn("Fullscreen denied", error);
         }
+        requestAnimationFrame(() => player.focus());
         renderSlide();
       }
 
@@ -733,6 +739,7 @@
         const slot = state.deck[state.currentIndex];
         const iframe = document.createElement("iframe");
         iframe.src = createSlideUrl(slot);
+        iframe.setAttribute("tabindex", "-1");
         slideShell.appendChild(iframe);
         slideCounter.textContent = `${state.currentIndex + 1} / ${state.deck.length}`;
         updateProgress();
@@ -746,9 +753,15 @@
       }
 
       function applyZoom() {
+        const toolbarHeight =
+          document.querySelector(".player-toolbar")?.getBoundingClientRect()
+            .height || 0;
+        const progressHeight =
+          document.querySelector(".progress-track")?.getBoundingClientRect()
+            .height || 0;
         const baseScale = Math.min(
           window.innerWidth / 1280,
-          (window.innerHeight - 80) / 720
+          (window.innerHeight - toolbarHeight - progressHeight - 16) / 720
         );
         const scale = baseScale * state.zoom;
         slideShell.style.transform = `scale(${scale})`;
@@ -808,7 +821,7 @@
         builder.scrollIntoView({ behavior: "smooth" });
       });
 
-      function handleDemoLoad() {
+      function handleTemplateLoad() {
         state.deck = state.templates.map((template, index) => ({
           id: `demo-${index}`,
           label: template.name,
@@ -822,7 +835,19 @@
         builder.scrollIntoView({ behavior: "smooth" });
       }
 
-      document.getElementById("demoBtn").addEventListener("click", handleDemoLoad);
+      function handleDemoPlay() {
+        state.deck = state.templates.map((template, index) => ({
+          id: `demo-${index}`,
+          label: template.name,
+          type: "template",
+          src: template.src,
+          content: "",
+        }));
+        saveDeck();
+        openPlayer();
+      }
+
+      document.getElementById("demoBtn").addEventListener("click", handleDemoPlay);
 
       document.getElementById("generateBtn").addEventListener("click", handleGenerate);
       document.getElementById("resetBtn").addEventListener("click", resetDeck);
@@ -849,7 +874,7 @@
       window.addEventListener("resize", applyZoom);
       document.addEventListener("fullscreenchange", applyZoom);
 
-      document.addEventListener("keydown", (event) => {
+      function handlePlayerKeys(event) {
         if (player.classList.contains("hidden")) return;
         if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
           event.preventDefault();
@@ -871,7 +896,10 @@
         if (event.key === "Escape") {
           exitPlayer();
         }
-      });
+      }
+
+      document.addEventListener("keydown", handlePlayerKeys);
+      window.addEventListener("keydown", handlePlayerKeys, true);
 
       init();
     </script>
