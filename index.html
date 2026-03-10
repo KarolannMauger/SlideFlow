@@ -288,6 +288,18 @@
         backdrop-filter: blur(8px);
       }
 
+      .progress-track {
+        height: 6px;
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width 0.2s ease;
+      }
+
       .player-controls {
         display: flex;
         align-items: center;
@@ -422,12 +434,14 @@
           <span id="slideCounter">1 / 1</span>
         </div>
         <div class="player-controls">
-          <button class="player-btn" id="autoPlayBtn">Auto Play</button>
           <button class="player-btn" id="zoomOutBtn">-</button>
           <button class="player-btn" id="zoomResetBtn">Reset</button>
           <button class="player-btn" id="zoomInBtn">+</button>
           <button class="player-btn" id="exitBtn">Exit</button>
         </div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
       </div>
       <div class="player-stage">
         <div class="slide-shell" id="slideShell"></div>
@@ -448,6 +462,7 @@
       const player = document.getElementById("player");
       const slideShell = document.getElementById("slideShell");
       const slideCounter = document.getElementById("slideCounter");
+      const progressBar = document.getElementById("progressBar");
 
       const state = {
         templates: [],
@@ -455,8 +470,6 @@
         currentIndex: 0,
         zoom: 1,
         blobUrls: [],
-        autoPlay: false,
-        autoPlayTimer: null,
       };
 
       function showToast(message) {
@@ -521,10 +534,6 @@
           };
         }
         return updated;
-      }
-
-      function ensureDeckWithCover(count) {
-        return ensureCoverSlide(createEmptyDeck(count));
       }
 
       function renderDeck() {
@@ -714,7 +723,6 @@
         document.body.style.overflow = "auto";
         slideShell.innerHTML = "";
         clearBlobUrls();
-        stopAutoPlay();
         if (document.fullscreenElement) {
           document.exitFullscreen().catch(() => null);
         }
@@ -727,7 +735,14 @@
         iframe.src = createSlideUrl(slot);
         slideShell.appendChild(iframe);
         slideCounter.textContent = `${state.currentIndex + 1} / ${state.deck.length}`;
+        updateProgress();
         applyZoom();
+      }
+
+      function updateProgress() {
+        const total = Math.max(1, state.deck.length);
+        const progress = ((state.currentIndex + 1) / total) * 100;
+        progressBar.style.width = `${progress}%`;
       }
 
       function applyZoom() {
@@ -743,8 +758,6 @@
         if (state.currentIndex < state.deck.length - 1) {
           state.currentIndex += 1;
           renderSlide();
-        } else if (state.autoPlay) {
-          stopAutoPlay();
         }
       }
 
@@ -770,30 +783,6 @@
         applyZoom();
       }
 
-      function startAutoPlay() {
-        if (state.autoPlay) return;
-        state.autoPlay = true;
-        document.getElementById("autoPlayBtn").textContent = "Stop Auto";
-        state.autoPlayTimer = setInterval(nextSlide, 5000);
-      }
-
-      function stopAutoPlay() {
-        state.autoPlay = false;
-        document.getElementById("autoPlayBtn").textContent = "Auto Play";
-        if (state.autoPlayTimer) {
-          clearInterval(state.autoPlayTimer);
-          state.autoPlayTimer = null;
-        }
-      }
-
-      function toggleAutoPlay() {
-        if (state.autoPlay) {
-          stopAutoPlay();
-        } else {
-          startAutoPlay();
-        }
-      }
-
       async function init() {
         const response = await fetch("./templates.json", { cache: "no-store" });
         state.templates = await response.json();
@@ -804,19 +793,17 @@
           state.deck = saved;
           renderDeck();
         } else {
-          state.deck = ensureDeckWithCover(Number(slideCountInput.value));
+          state.deck = createEmptyDeck(1);
           renderDeck();
         }
       }
 
       document.getElementById("startBtn").addEventListener("click", () => {
         if (!state.deck.length) {
-          state.deck = ensureDeckWithCover(Number(slideCountInput.value));
-        } else {
-          state.deck = ensureCoverSlide(state.deck);
+          state.deck = createEmptyDeck(1);
+          saveDeck();
+          renderDeck();
         }
-        saveDeck();
-        renderDeck();
         builder.classList.remove("hidden");
         builder.scrollIntoView({ behavior: "smooth" });
       });
@@ -833,7 +820,6 @@
         builder.classList.remove("hidden");
         renderDeck();
         builder.scrollIntoView({ behavior: "smooth" });
-        openPlayer();
       }
 
       document.getElementById("demoBtn").addEventListener("click", handleDemoLoad);
@@ -847,7 +833,6 @@
       document.getElementById("zoomInBtn").addEventListener("click", zoomIn);
       document.getElementById("zoomOutBtn").addEventListener("click", zoomOut);
       document.getElementById("zoomResetBtn").addEventListener("click", zoomReset);
-      document.getElementById("autoPlayBtn").addEventListener("click", toggleAutoPlay);
       document.getElementById("exitBtn").addEventListener("click", exitPlayer);
 
       dropZone.addEventListener("dragover", (event) => {
@@ -882,9 +867,6 @@
         }
         if (event.key === "0") {
           zoomReset();
-        }
-        if (event.key.toLowerCase() === "p") {
-          toggleAutoPlay();
         }
         if (event.key === "Escape") {
           exitPlayer();
