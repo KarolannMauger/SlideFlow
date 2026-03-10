@@ -400,13 +400,14 @@
             <input type="number" id="slideCount" min="1" max="30" value="8" />
           </label>
           <button class="btn secondary" id="generateBtn">Generate Slots</button>
+          <button class="btn secondary" id="resetBtn">Reset Deck</button>
           <button class="btn" id="playBtn">Play Deck</button>
         </div>
         <div class="drop-zone" id="dropZone">
           Drop HTML slide files here to add them to the deck.
         </div>
-        <div class="slot-meta">
-          Note: images inside templates should be publicly hosted URLs to render
+        <div class="slot-meta" id="publicImageNote">
+          Note: images inside templates must be publicly hosted URLs to render
           for everyone.
         </div>
         <div class="slides-grid" id="slidesGrid"></div>
@@ -618,6 +619,14 @@
         renderDeck();
       }
 
+      function resetDeck() {
+        localStorage.removeItem(STORAGE_KEY);
+        state.deck = ensureCoverSlide(createEmptyDeck(Number(slideCountInput.value)));
+        saveDeck();
+        renderDeck();
+        showToast("Deck reset.");
+      }
+
       function handleDrop(event) {
         event.preventDefault();
         dropZone.classList.remove("dragover");
@@ -788,6 +797,7 @@
       document.getElementById("demoBtn").addEventListener("click", handleDemoLoad);
 
       document.getElementById("generateBtn").addEventListener("click", handleGenerate);
+      document.getElementById("resetBtn").addEventListener("click", resetDeck);
       document.getElementById("playBtn").addEventListener("click", openPlayer);
 
       document.getElementById("nextBtn").addEventListener("click", nextSlide);
