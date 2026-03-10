@@ -2,16 +2,14 @@
   "name": "slideflow",
   "private": true,
   "version": "1.0.0",
-  "description": "Presentation HTML simple basee sur Reveal.js",
+  "description": "Local-first HTML presentation builder and player",
   "scripts": {
     "build": "node scripts/build.js",
     "dev": "npm run build && http-server dist -p 5173",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "dependencies": {
-    "reveal.js": "^5.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "gh-pages": "^6.1.1",
     "http-server": "^14.1.1"

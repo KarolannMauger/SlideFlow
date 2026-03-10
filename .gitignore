@@ -2,14 +2,5 @@ node_modules/
 .DS_Store
 npm-debug.log*
 
-# Local build artifacts
-/slides.json
-/vendor/
-
 # Deployment build
 /dist/
-
-# Allow gh-pages to include generated assets
-!dist/slides.json
-!dist/vendor/
-!dist/vendor/**

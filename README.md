@@ -1,15 +1,17 @@
 # SlideFlow
 
-Live demo: https://karolannmauger.github.io/SlideFlow/
+Local-first HTML slide builder and player. Drag, drop, reorder, and present in a clean full-screen view — all in the browser.
 
-Clean Reveal.js-based HTML presentation with automatic slide discovery.
+Live demo: https://karolannmauger.github.io/SlideFlow/
 
 ## Features
 
-- Fullscreen support (button or `F`)
-- Keyboard navigation (left/right, PageUp/PageDown, space)
-- Auto-detects slides from `slides/`
-- Simple GitHub Pages deployment
+- Landing page with live template previews
+- Choose slide count (cover included)
+- Drag & drop HTML slides
+- Reorder slides via drag and drop
+- Full-screen player with keyboard navigation and zoom
+- LocalStorage persistence (no backend)
 
 ## Requirements
 
@@ -31,7 +33,7 @@ This generates:
 
 - `dist/` (deployable site)
 - `slides.json` (auto-generated from `slides/`)
-- `vendor/reveal/` (local Reveal.js assets)
+- `templates.json` (template metadata from slide titles)
 
 ## Local Dev
 
@@ -53,14 +55,7 @@ This publishes `dist/` to the `gh-pages` branch. In GitHub, set Pages to:
 - Branch: `gh-pages`
 - Folder: `/ (root)`
 
-## Deploy (Render)
-
-Use a **Static Site** with:
-
-- Build command: `npm install && npm run build`
-- Publish directory: `dist`
-
 ## Notes
 
-- Slides are loaded in `iframe`s to keep each slide's CSS/JS isolated.
-- The presentation content can be in French; the UI remains minimal and language-agnostic.
+- All data stays in your browser via `localStorage`.
+- Templates are the HTML files inside `slides/`.

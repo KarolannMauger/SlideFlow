@@ -1,18 +1,28 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Présentation</title>
+    <title>SlideFlow — Local-First HTML Decks</title>
     <meta
       name="description"
-      content="Présentation Reveal.js avec slides HTML intégrées."
+      content="SlideFlow lets you build, reorder, and play HTML slide decks locally using drag and drop."
     />
-    <link rel="stylesheet" href="./vendor/reveal/reveal.css" />
-    <link rel="stylesheet" href="./vendor/reveal/theme/white.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         color-scheme: only light;
+        --bg: #0b0f1a;
+        --bg-soft: #111827;
+        --card: #151b2c;
+        --accent: #7c3aed;
+        --accent-2: #22d3ee;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --line: rgba(148, 163, 184, 0.25);
       }
 
       * {
@@ -21,180 +31,793 @@
 
       body {
         margin: 0;
-        background: radial-gradient(circle at top, #1f2937, #0b0f1a 60%);
-        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 55%),
+          radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 40%),
+          var(--bg);
+        color: var(--text);
+        min-height: 100vh;
       }
 
-      .reveal {
-        background: transparent;
+      a {
+        color: inherit;
+        text-decoration: none;
       }
 
-      .reveal .slides {
-        text-align: center;
+      .page {
+        padding: 32px 5vw 80px;
       }
 
-      .reveal .slides section {
-        display: flex !important;
-        justify-content: center;
+      header {
+        display: flex;
         align-items: center;
+        justify-content: space-between;
+        margin-bottom: 48px;
       }
 
-      .slide-frame {
-        width: 1280px;
-        height: 720px;
-        border: 0;
-        border-radius: 18px;
-        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
-        background: #0b0f1a;
-      }
-
-      .reveal .progress {
-        height: 6px;
-      }
-
-      .hud {
-        position: fixed;
-        right: 24px;
-        bottom: 20px;
+      .logo {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(15, 23, 42, 0.7);
-        border: 1px solid rgba(148, 163, 184, 0.3);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .logo-badge {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: #0b0f1a;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        background: var(--accent);
+        color: #0b0f1a;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(124, 58, 237, 0.35);
+      }
+
+      .btn.secondary {
+        background: transparent;
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 32px;
+        align-items: center;
+        margin-bottom: 64px;
+      }
+
+      .hero-title {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2.6rem, 3.5vw, 4rem);
+        line-height: 1.05;
+        margin: 0 0 16px;
+      }
+
+      .hero-sub {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-card {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(34, 211, 238, 0.08));
+        border-radius: 24px;
+        padding: 24px;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+      }
+
+      .hero-card ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 12px;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        margin: 0 0 16px;
+      }
+
+      .templates-grid,
+      .slides-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+
+      .template-card,
+      .slot-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .template-preview {
+        height: 160px;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        background: #0f172a;
+      }
+
+      .template-preview iframe {
+        width: 1280px;
+        height: 720px;
+        border: 0;
+        transform: scale(0.17);
+        transform-origin: top left;
+        pointer-events: none;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.15);
+        font-size: 0.85rem;
+      }
+
+      .builder {
+        margin-top: 72px;
+        padding: 32px;
+        border-radius: 24px;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid var(--line);
+      }
+
+      .builder.hidden,
+      .player.hidden {
+        display: none;
+      }
+
+      .builder-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .builder input[type="number"] {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #0f172a;
+        color: var(--text);
+        width: 120px;
+      }
+
+      .drop-zone {
+        border: 2px dashed rgba(124, 58, 237, 0.5);
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(124, 58, 237, 0.08);
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+
+      .drop-zone.dragover {
+        background: rgba(34, 211, 238, 0.12);
+        border-color: rgba(34, 211, 238, 0.8);
+        color: var(--text);
+      }
+
+      .slot-card {
+        cursor: grab;
+      }
+
+      .slot-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .slot-title {
+        font-weight: 600;
+      }
+
+      .slot-meta {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .slot-actions {
+        display: grid;
+        gap: 10px;
+      }
+
+      .slot-actions select,
+      .slot-actions input[type="file"] {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #0f172a;
+        color: var(--text);
+      }
+
+      .player {
+        position: fixed;
+        inset: 0;
+        background: #05070f;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        z-index: 40;
+      }
+
+      .player-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 32px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        background: rgba(5, 7, 15, 0.8);
+        backdrop-filter: blur(8px);
+      }
+
+      .player-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .player-btn {
         padding: 8px 14px;
         border-radius: 999px;
-        font-size: 14px;
-        letter-spacing: 0.02em;
-        color: #e2e8f0;
-        z-index: 10;
-      }
-
-      .hud button {
-        background: rgba(148, 163, 184, 0.15);
         border: 1px solid rgba(148, 163, 184, 0.4);
-        color: inherit;
-        border-radius: 999px;
-        padding: 6px 12px;
+        background: rgba(148, 163, 184, 0.15);
+        color: var(--text);
         cursor: pointer;
-        transition: transform 0.15s ease, background 0.15s ease;
       }
 
-      .hud button:hover {
-        transform: translateY(-1px);
-        background: rgba(148, 163, 184, 0.25);
+      .player-stage {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
       }
 
-      .hud button:active {
-        transform: translateY(0);
+      .slide-shell {
+        width: 1280px;
+        height: 720px;
+        transform-origin: center;
+        border-radius: 18px;
+        box-shadow: 0 30px 120px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        background: #0f172a;
       }
 
-      .status {
-        opacity: 0.75;
+      .slide-shell iframe {
+        width: 1280px;
+        height: 720px;
+        border: 0;
       }
 
-      .error {
-        color: #fecaca;
-        margin: 32px auto;
-        text-align: center;
-        max-width: 680px;
-        font-size: 18px;
-        line-height: 1.6;
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        padding: 12px 16px;
+        border-radius: 12px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 720px) {
+        .hero-card {
+          order: -1;
+        }
+
+        .player-toolbar {
+          flex-direction: column;
+          gap: 12px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="reveal">
-      <div class="slides" id="slidesRoot"></div>
+    <div class="page" id="home">
+      <header>
+        <div class="logo">
+          <div class="logo-badge">SF</div>
+          SlideFlow
+        </div>
+        <div class="nav-actions">
+          <button class="btn secondary" id="demoBtn">Load Demo</button>
+          <button class="btn" id="startBtn">Start Building</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="pill">Local-first • No database • HTML templates</p>
+          <h1 class="hero-title">Build and play HTML slide decks in minutes.</h1>
+          <p class="hero-sub">
+            SlideFlow lets you assemble HTML slides, reorder them with drag and
+            drop, then run a clean full-screen presentation. Everything stays in
+            your browser using localStorage.
+          </p>
+        </div>
+        <div class="hero-card">
+          <h2 class="section-title">What you can do</h2>
+          <ul>
+            <li>Choose the number of slides (cover included).</li>
+            <li>Drop your HTML files or pick from templates.</li>
+            <li>Reorder with drag and drop.</li>
+            <li>Play with arrows + zoom in/out.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Live Templates</h2>
+        <div class="templates-grid" id="templatesGrid"></div>
+      </section>
+
+      <section class="builder hidden" id="builder">
+        <div class="builder-top">
+          <h2 class="section-title">Deck Builder</h2>
+          <div class="pill">Presented by Karolann Mauger</div>
+        </div>
+        <div class="builder-top">
+          <label>
+            Slides count (includes cover)
+            <input type="number" id="slideCount" min="1" max="30" value="8" />
+          </label>
+          <button class="btn secondary" id="generateBtn">Generate Slots</button>
+          <button class="btn" id="playBtn">Play Deck</button>
+        </div>
+        <div class="drop-zone" id="dropZone">
+          Drop HTML slide files here to add them to the deck.
+        </div>
+        <div class="slides-grid" id="slidesGrid"></div>
+      </section>
     </div>
 
-    <div class="hud" id="hud">
-      <button type="button" id="fullscreenBtn">Plein ecran</button>
-      <span class="status" id="slideStatus">Chargement...</span>
-    </div>
+    <section class="player hidden" id="player">
+      <div class="player-toolbar">
+        <div class="player-controls">
+          <button class="player-btn" id="prevBtn">← Prev</button>
+          <button class="player-btn" id="nextBtn">Next →</button>
+          <span id="slideCounter">1 / 1</span>
+        </div>
+        <div class="player-controls">
+          <button class="player-btn" id="zoomOutBtn">-</button>
+          <button class="player-btn" id="zoomResetBtn">Reset</button>
+          <button class="player-btn" id="zoomInBtn">+</button>
+          <button class="player-btn" id="exitBtn">Exit</button>
+        </div>
+      </div>
+      <div class="player-stage">
+        <div class="slide-shell" id="slideShell"></div>
+      </div>
+    </section>
 
-    <noscript>Active JavaScript pour afficher la présentation.</noscript>
+    <div class="toast" id="toast" hidden></div>
 
-    <script src="./vendor/reveal/reveal.js"></script>
     <script>
-      const slidesRoot = document.getElementById("slidesRoot");
-      const slideStatus = document.getElementById("slideStatus");
-      const fullscreenBtn = document.getElementById("fullscreenBtn");
+      const STORAGE_KEY = "slideflow_deck_v1";
+      const templatesGrid = document.getElementById("templatesGrid");
+      const builder = document.getElementById("builder");
+      const slidesGrid = document.getElementById("slidesGrid");
+      const slideCountInput = document.getElementById("slideCount");
+      const dropZone = document.getElementById("dropZone");
+      const toast = document.getElementById("toast");
 
-      async function loadSlides() {
-        const response = await fetch("./slides.json", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error("Impossible de charger slides.json");
-        }
-        const slides = await response.json();
-        if (!Array.isArray(slides) || slides.length === 0) {
-          throw new Error("Aucune slide detectee.");
-        }
+      const player = document.getElementById("player");
+      const slideShell = document.getElementById("slideShell");
+      const slideCounter = document.getElementById("slideCounter");
 
-        slides.forEach((src, index) => {
-          const section = document.createElement("section");
-          const iframe = document.createElement("iframe");
-          iframe.className = "slide-frame";
-          iframe.src = src;
-          iframe.title = `Slide ${index + 1}`;
-          section.appendChild(iframe);
-          slidesRoot.appendChild(section);
-        });
+      const state = {
+        templates: [],
+        deck: [],
+        currentIndex: 0,
+        zoom: 1,
+        blobUrls: [],
+      };
 
-        return slides.length;
+      function showToast(message) {
+        toast.textContent = message;
+        toast.hidden = false;
+        setTimeout(() => (toast.hidden = true), 2400);
       }
 
-      function updateStatus() {
-        const indices = Reveal.getIndices();
-        const total = Reveal.getTotalSlides();
-        slideStatus.textContent = `Slide ${indices.h + 1} / ${total}`;
+      function saveDeck() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.deck));
       }
 
-      async function setup() {
+      function loadDeck() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
         try {
-          const count = await loadSlides();
-          Reveal.initialize({
-            width: 1280,
-            height: 720,
-            margin: 0.04,
-            minScale: 0.2,
-            maxScale: 2.0,
-            controls: true,
-            progress: true,
-            hash: true,
-            slideNumber: true,
-          });
-
-          Reveal.on("ready", updateStatus);
-          Reveal.on("slidechanged", updateStatus);
-          slideStatus.textContent = `Slide 1 / ${count}`;
+          return JSON.parse(raw);
         } catch (error) {
-          console.error(error);
-          slidesRoot.innerHTML = `
-            <div class="error">
-              <strong>Erreur :</strong> ${error.message}<br />
-              Lance d'abord <code>npm install</code> puis <code>npm run build</code>.
+          console.warn("Failed to parse deck", error);
+          return [];
+        }
+      }
+
+      function buildTemplatesGrid() {
+        templatesGrid.innerHTML = "";
+        state.templates.forEach((template) => {
+          const card = document.createElement("div");
+          card.className = "template-card";
+          card.innerHTML = `
+            <div class="template-preview">
+              <iframe src="${template.src}" title="${template.name}"></iframe>
+            </div>
+            <strong>${template.name}</strong>
+            <span class="slot-meta">HTML template</span>
+          `;
+          templatesGrid.appendChild(card);
+        });
+      }
+
+      function createEmptyDeck(count) {
+        return Array.from({ length: count }, (_, index) => ({
+          id: `slot-${Date.now()}-${index}`,
+          label: `Slide ${index + 1}`,
+          type: "empty",
+          src: "",
+          content: "",
+        }));
+      }
+
+      function ensureCoverSlide(deck) {
+        if (!state.templates.length) return deck;
+        if (deck.length === 0) return deck;
+        const cover = state.templates[0];
+        const updated = [...deck];
+        if (updated[0].type === "empty") {
+          updated[0] = {
+            ...updated[0],
+            type: "template",
+            src: cover.src,
+            label: cover.name,
+          };
+        }
+        return updated;
+      }
+
+      function renderDeck() {
+        slidesGrid.innerHTML = "";
+        state.deck.forEach((slot, index) => {
+          const card = document.createElement("div");
+          card.className = "slot-card";
+          card.draggable = true;
+          card.dataset.index = index;
+
+          const templateOptions = state.templates
+            .map(
+              (template) =>
+                `<option value="${template.src}" ${
+                  slot.src === template.src ? "selected" : ""
+                }>${template.name}</option>`
+            )
+            .join("");
+
+          card.innerHTML = `
+            <div class="slot-header">
+              <div>
+                <div class="slot-title">${slot.label}</div>
+                <div class="slot-meta">${slot.type}</div>
+              </div>
+              <div class="slot-meta">Drag to reorder</div>
+            </div>
+            <div class="slot-actions">
+              <select data-action="template">
+                <option value="">Pick a template</option>
+                ${templateOptions}
+              </select>
+              <input type="file" accept=".html" data-action="upload" />
             </div>
           `;
-          slideStatus.textContent = "Erreur";
+
+          const select = card.querySelector("select");
+          select.addEventListener("change", (event) => {
+            const src = event.target.value;
+            if (!src) return;
+            state.deck[index] = {
+              ...state.deck[index],
+              type: "template",
+              src,
+              content: "",
+            };
+            saveDeck();
+            renderDeck();
+          });
+
+          const upload = card.querySelector("input");
+          upload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              state.deck[index] = {
+                ...state.deck[index],
+                type: "file",
+                src: "",
+                content: String(reader.result),
+                label: file.name.replace(/\.html$/i, ""),
+              };
+              saveDeck();
+              renderDeck();
+            };
+            reader.readAsText(file);
+          });
+
+          card.addEventListener("dragstart", (event) => {
+            event.dataTransfer.setData("text/plain", String(index));
+          });
+
+          card.addEventListener("dragover", (event) => {
+            event.preventDefault();
+          });
+
+          card.addEventListener("drop", (event) => {
+            event.preventDefault();
+            const from = Number(event.dataTransfer.getData("text/plain"));
+            const to = Number(card.dataset.index);
+            if (Number.isNaN(from) || from === to) return;
+            const updated = [...state.deck];
+            const [moved] = updated.splice(from, 1);
+            updated.splice(to, 0, moved);
+            state.deck = updated;
+            saveDeck();
+            renderDeck();
+          });
+
+          slidesGrid.appendChild(card);
+        });
+      }
+
+      function handleGenerate() {
+        const count = Math.max(1, Number(slideCountInput.value || 1));
+        state.deck = ensureCoverSlide(createEmptyDeck(count));
+        saveDeck();
+        renderDeck();
+      }
+
+      function handleDrop(event) {
+        event.preventDefault();
+        dropZone.classList.remove("dragover");
+        const files = Array.from(event.dataTransfer.files).filter((file) =>
+          file.name.toLowerCase().endsWith(".html")
+        );
+        if (!files.length) {
+          showToast("Only HTML files are supported.");
+          return;
+        }
+        const emptyIndex = state.deck.findIndex((slot) => slot.type === "empty");
+        files.forEach((file, idx) => {
+          const targetIndex = emptyIndex === -1 ? state.deck.length + idx : emptyIndex + idx;
+          const slot = state.deck[targetIndex] || {
+            id: `slot-${Date.now()}-${targetIndex}`,
+            label: `Slide ${targetIndex + 1}`,
+            type: "empty",
+            src: "",
+            content: "",
+          };
+          const reader = new FileReader();
+          reader.onload = () => {
+            state.deck[targetIndex] = {
+              ...slot,
+              type: "file",
+              src: "",
+              content: String(reader.result),
+              label: file.name.replace(/\.html$/i, ""),
+            };
+            saveDeck();
+            renderDeck();
+          };
+          reader.readAsText(file);
+        });
+      }
+
+      function validateDeck() {
+        return state.deck.every((slot) => slot.type !== "empty");
+      }
+
+      function createSlideUrl(slot) {
+        if (slot.type === "template") return slot.src;
+        if (slot.type === "file") {
+          const blob = new Blob([slot.content], { type: "text/html" });
+          const url = URL.createObjectURL(blob);
+          state.blobUrls.push(url);
+          return url;
+        }
+        return "";
+      }
+
+      function clearBlobUrls() {
+        state.blobUrls.forEach((url) => URL.revokeObjectURL(url));
+        state.blobUrls = [];
+      }
+
+      function openPlayer() {
+        if (!validateDeck()) {
+          showToast("Please fill every slide before playing.");
+          return;
+        }
+        state.currentIndex = 0;
+        state.zoom = 1;
+        player.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        renderSlide();
+      }
+
+      function exitPlayer() {
+        player.classList.add("hidden");
+        document.body.style.overflow = "auto";
+        slideShell.innerHTML = "";
+        clearBlobUrls();
+      }
+
+      function renderSlide() {
+        slideShell.innerHTML = "";
+        const slot = state.deck[state.currentIndex];
+        const iframe = document.createElement("iframe");
+        iframe.src = createSlideUrl(slot);
+        slideShell.appendChild(iframe);
+        slideCounter.textContent = `${state.currentIndex + 1} / ${state.deck.length}`;
+        applyZoom();
+      }
+
+      function applyZoom() {
+        const baseScale = Math.min(
+          window.innerWidth / 1280,
+          (window.innerHeight - 80) / 720
+        );
+        const scale = baseScale * state.zoom;
+        slideShell.style.transform = `scale(${scale})`;
+      }
+
+      function nextSlide() {
+        if (state.currentIndex < state.deck.length - 1) {
+          state.currentIndex += 1;
+          renderSlide();
         }
       }
 
-      function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen();
+      function prevSlide() {
+        if (state.currentIndex > 0) {
+          state.currentIndex -= 1;
+          renderSlide();
+        }
+      }
+
+      function zoomIn() {
+        state.zoom = Math.min(2.5, state.zoom + 0.1);
+        applyZoom();
+      }
+
+      function zoomOut() {
+        state.zoom = Math.max(0.5, state.zoom - 0.1);
+        applyZoom();
+      }
+
+      function zoomReset() {
+        state.zoom = 1;
+        applyZoom();
+      }
+
+      async function init() {
+        const response = await fetch("./templates.json", { cache: "no-store" });
+        state.templates = await response.json();
+        buildTemplatesGrid();
+
+        const saved = loadDeck();
+        if (saved.length) {
+          state.deck = saved;
+          renderDeck();
         } else {
-          document.exitFullscreen();
+          state.deck = ensureCoverSlide(createEmptyDeck(Number(slideCountInput.value)));
+          renderDeck();
         }
       }
 
-      fullscreenBtn.addEventListener("click", toggleFullscreen);
+      document.getElementById("startBtn").addEventListener("click", () => {
+        builder.classList.remove("hidden");
+        builder.scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.getElementById("demoBtn").addEventListener("click", () => {
+        state.deck = state.templates.map((template, index) => ({
+          id: `demo-${index}`,
+          label: template.name,
+          type: "template",
+          src: template.src,
+          content: "",
+        }));
+        saveDeck();
+        builder.classList.remove("hidden");
+        renderDeck();
+        builder.scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.getElementById("generateBtn").addEventListener("click", handleGenerate);
+      document.getElementById("playBtn").addEventListener("click", openPlayer);
+
+      document.getElementById("nextBtn").addEventListener("click", nextSlide);
+      document.getElementById("prevBtn").addEventListener("click", prevSlide);
+      document.getElementById("zoomInBtn").addEventListener("click", zoomIn);
+      document.getElementById("zoomOutBtn").addEventListener("click", zoomOut);
+      document.getElementById("zoomResetBtn").addEventListener("click", zoomReset);
+      document.getElementById("exitBtn").addEventListener("click", exitPlayer);
+
+      dropZone.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+
+      dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("dragover");
+      });
+
+      dropZone.addEventListener("drop", handleDrop);
+
+      window.addEventListener("resize", applyZoom);
+
       document.addEventListener("keydown", (event) => {
-        if (event.key.toLowerCase() === "f") {
-          toggleFullscreen();
+        if (player.classList.contains("hidden")) return;
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          nextSlide();
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          prevSlide();
+        }
+        if (event.key === "+" || event.key === "=") {
+          zoomIn();
+        }
+        if (event.key === "-") {
+          zoomOut();
+        }
+        if (event.key === "0") {
+          zoomReset();
+        }
+        if (event.key === "Escape") {
+          exitPlayer();
         }
       });
 
-      setup();
+      init();
     </script>
   </body>
 </html>

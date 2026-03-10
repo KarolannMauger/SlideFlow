@@ -7,31 +7,10 @@ const slidesDir = path.join(projectRoot, "slides");
 const outputJson = path.join(projectRoot, "slides.json");
 const distDir = path.join(projectRoot, "dist");
 const distSlidesDir = path.join(distDir, "slides");
-const distVendorReveal = path.join(distDir, "vendor", "reveal");
 const distSlidesJson = path.join(distDir, "slides.json");
+const templatesJson = path.join(projectRoot, "templates.json");
+const distTemplatesJson = path.join(distDir, "templates.json");
 const distIndex = path.join(distDir, "index.html");
-const revealDist = path.join(
-  projectRoot,
-  "node_modules",
-  "reveal.js",
-  "dist"
-);
-const vendorReveal = path.join(projectRoot, "vendor", "reveal");
-
-function ensureRevealDist() {
-  if (!fs.existsSync(revealDist)) {
-    console.error(
-      "Reveal.js introuvable. Lance d'abord: npm install"
-    );
-    process.exit(1);
-  }
-}
-
-function copyRevealDist() {
-  fs.rmSync(vendorReveal, { recursive: true, force: true });
-  fs.mkdirSync(vendorReveal, { recursive: true });
-  fs.cpSync(revealDist, vendorReveal, { recursive: true });
-}
 
 function generateSlidesList() {
   if (!fs.existsSync(slidesDir)) {
@@ -46,8 +25,32 @@ function generateSlidesList() {
 
   const entries = files.map((file) => `slides/${file}`);
   const payload = JSON.stringify(entries, null, 2);
+  const templatesPayload = JSON.stringify(
+    entries.map((src, index) => {
+      const filePath = path.join(projectRoot, src);
+      let name = `Template ${index + 1}`;
+      try {
+        const html = fs.readFileSync(filePath, "utf8");
+        const match = html.match(new RegExp("<title>(.*?)</title>", "i"));
+        if (match && match[1]) {
+          name = match[1].trim();
+        }
+      } catch (error) {
+        console.warn(`Could not read title for ${src}`);
+      }
+      return {
+        id: `template-${index + 1}`,
+        name,
+        src,
+      };
+    }),
+    null,
+    2
+  );
   fs.writeFileSync(outputJson, payload);
   fs.writeFileSync(distSlidesJson, payload);
+  fs.writeFileSync(templatesJson, templatesPayload);
+  fs.writeFileSync(distTemplatesJson, templatesPayload);
 
   console.log(`Slides detectees: ${entries.length}`);
 }
@@ -57,10 +60,7 @@ function prepareDist() {
   fs.mkdirSync(distDir, { recursive: true });
   fs.cpSync(path.join(projectRoot, "index.html"), distIndex);
   fs.cpSync(slidesDir, distSlidesDir, { recursive: true });
-  fs.cpSync(vendorReveal, distVendorReveal, { recursive: true });
 }
 
-ensureRevealDist();
-copyRevealDist();
 prepareDist();
 generateSlidesList();
