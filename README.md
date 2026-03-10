@@ -59,3 +59,4 @@ This publishes `dist/` to the `gh-pages` branch. In GitHub, set Pages to:
 
 - All data stays in your browser via `localStorage`.
 - Templates are the HTML files inside `slides/`.
+- Images referenced by URL must be publicly accessible to render for everyone.

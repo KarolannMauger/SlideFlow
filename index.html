@@ -405,6 +405,10 @@
         <div class="drop-zone" id="dropZone">
           Drop HTML slide files here to add them to the deck.
         </div>
+        <div class="slot-meta">
+          Note: images inside templates should be publicly hosted URLs to render
+          for everyone.
+        </div>
         <div class="slides-grid" id="slidesGrid"></div>
       </section>
     </div>
@@ -474,18 +478,19 @@
 
       function buildTemplatesGrid() {
         templatesGrid.innerHTML = "";
-        state.templates.forEach((template) => {
-          const card = document.createElement("div");
-          card.className = "template-card";
-          card.innerHTML = `
-            <div class="template-preview">
-              <iframe src="${template.src}" title="${template.name}"></iframe>
-            </div>
-            <strong>${template.name}</strong>
-            <span class="slot-meta">HTML template</span>
-          `;
-          templatesGrid.appendChild(card);
-        });
+        const featured = state.templates[0];
+        if (!featured) return;
+        const card = document.createElement("div");
+        card.className = "template-card";
+        card.innerHTML = `
+          <div class="template-preview">
+            <iframe src="${featured.src}" title="${featured.name}"></iframe>
+          </div>
+          <strong>${featured.name}</strong>
+          <span class="slot-meta">HTML template</span>
+        `;
+        card.addEventListener("click", handleDemoLoad);
+        templatesGrid.appendChild(card);
       }
 
       function createEmptyDeck(count) {
@@ -669,7 +674,7 @@
         state.blobUrls = [];
       }
 
-      function openPlayer() {
+      async function openPlayer() {
         if (!validateDeck()) {
           showToast("Please fill every slide before playing.");
           return;
@@ -678,6 +683,13 @@
         state.zoom = 1;
         player.classList.remove("hidden");
         document.body.style.overflow = "hidden";
+        try {
+          if (!document.fullscreenElement) {
+            await player.requestFullscreen();
+          }
+        } catch (error) {
+          console.warn("Fullscreen denied", error);
+        }
         renderSlide();
       }
 
@@ -686,6 +698,9 @@
         document.body.style.overflow = "auto";
         slideShell.innerHTML = "";
         clearBlobUrls();
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => null);
+        }
       }
 
       function renderSlide() {
@@ -756,7 +771,7 @@
         builder.scrollIntoView({ behavior: "smooth" });
       });
 
-      document.getElementById("demoBtn").addEventListener("click", () => {
+      function handleDemoLoad() {
         state.deck = state.templates.map((template, index) => ({
           id: `demo-${index}`,
           label: template.name,
@@ -768,7 +783,9 @@
         builder.classList.remove("hidden");
         renderDeck();
         builder.scrollIntoView({ behavior: "smooth" });
-      });
+      }
+
+      document.getElementById("demoBtn").addEventListener("click", handleDemoLoad);
 
       document.getElementById("generateBtn").addEventListener("click", handleGenerate);
       document.getElementById("playBtn").addEventListener("click", openPlayer);
@@ -792,6 +809,7 @@
       dropZone.addEventListener("drop", handleDrop);
 
       window.addEventListener("resize", applyZoom);
+      document.addEventListener("fullscreenchange", applyZoom);
 
       document.addEventListener("keydown", (event) => {
         if (player.classList.contains("hidden")) return;
