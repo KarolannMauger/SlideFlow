@@ -33,7 +33,7 @@ function generateSlidesList() {
         const html = fs.readFileSync(filePath, "utf8");
         const match = html.match(new RegExp("<title>(.*?)</title>", "i"));
         if (match && match[1]) {
-          name = match[1].trim();
+          name = match[1].trim().replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
         }
       } catch (error) {
         console.warn(`Could not read title for ${src}`);
